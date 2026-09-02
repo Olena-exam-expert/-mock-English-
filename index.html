@@ -77,7 +77,6 @@
             font-size: 0.95rem;
         }
 
-        /* Warning Box inside Start Modal */
         .modal-warning {
             background-color: #fffbe3;
             border: 1px solid #fde047;
@@ -326,7 +325,18 @@
         .question-title {
             font-weight: 600;
             font-size: 1.05rem;
+            margin-bottom: 8px;
+        }
+
+        .question-excerpt {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--primary);
+            padding: 10px 14px;
+            border-radius: 6px;
+            font-size: 0.92rem;
             margin-bottom: 12px;
+            font-style: italic;
         }
 
         .question-img {
@@ -471,7 +481,6 @@
             background: var(--primary-hover);
         }
 
-        /* Hidden PDF Container Styles */
         #pdfReport {
             display: none;
             background: #ffffff;
@@ -534,10 +543,11 @@
         <h2>Вітаємо на тестуванні!</h2>
         <p class="modal-desc">Будь ласка, введіть ваше ім'я та прізвище для початку пробного НМТ.</p>
 
-        <!-- Warning Box Added Here -->
         <div class="modal-warning">
-            <strong>⚠️ Працюйте без відволікань!</strong>
-            Намагайтеся не залишати цю сторінку під час виконання — усі переходи між вкладками та вікнами автоматично трекаються.
+            <strong>⚠️ Увага! Важливі правила проходження тесту:</strong>
+            • На виконання тесту відведено 60 хвилин.<br>
+            • У системі працює трекер відволікань. Перемикання вкладок, згортання браузера або перехід в інші вікна буде зафіксовано в підсумковому результаті.<br>
+            • Ви можете пропускати питання та повертатися до них у будь-який момент за допомогою навігаційної панелі.
         </div>
 
         <input type="text" id="studentNameInput" placeholder="Введіть ПІБ учня..." required autofocus />
@@ -608,7 +618,6 @@
 let studentName = "";
 let tabSwitchCount = 0;
 
-// Track tab switches (visibility change)
 document.addEventListener("visibilitychange", function() {
     if (document.hidden && !testSubmitted && studentName !== "") {
         tabSwitchCount++;
@@ -619,7 +628,6 @@ document.addEventListener("visibilitychange", function() {
     }
 });
 
-// Conversion scale from raw points (0-32) to 100-200 scale
 const conversionTable = {
     0: 0, 1: 0, 2: 0, 3: 0, 4: 0,
     5: 100, 6: 109, 7: 118, 8: 125, 9: 131,
@@ -771,7 +779,7 @@ const quizData = [
         questions: [
             {
                 id: 6,
-                prompt: "6) What inspired John Montagu to ask for meat between two slices of bread?",
+                prompt: "6. What inspired John Montagu to ask for meat between two slices of bread?",
                 options: [
                     "A) A tradition as old as Hillel the Elder’s time.",
                     "B) Signature Turkish food.",
@@ -779,11 +787,11 @@ const quizData = [
                     "D) Culinary habits he observed in his travels in the Middle East."
                 ],
                 answer: "D",
-                exp: "<strong>Explanation:</strong> Paragraph 3 states that John Montagu traveled extensively throughout the Ottoman Empire (located in the Middle East) and that researchers believe this journey inspired him to bring the convenient practice of wrapping fillings in flatbread back home to England.<br><br><strong>Why others are incorrect:</strong> Option A refers to Hillel the Elder in Jerusalem rather than the direct inspiration noted for Montagu. Option B specifies 'Turkish food,' but the text states he was inspired by the broader journey/custom of wrapping fillings in flatbread across the Ottoman Empire. Option C relates to Passover Seder, which is connected to Hillel the Elder, not Montagu."
+                exp: "<strong>Explanation:</strong> Paragraph 3 states that John Montagu traveled extensively throughout the Ottoman Empire (located in the Middle East) and that researchers believe this journey inspired him to bring the convenient practice of wrapping fillings in flatbread back home to England."
             },
             {
                 id: 7,
-                prompt: "7) According to the text, which of the following is NOT TRUE about the history of the sandwich?",
+                prompt: "7. According to the text, which of the following is NOT TRUE about the history of the sandwich?",
                 options: [
                     "A) Hillel the Elder used unleavened bread to make early versions of wrapped snacks.",
                     "B) John Montagu is acknowledged as the original author of the sandwich concept.",
@@ -791,11 +799,11 @@ const quizData = [
                     "D) The term \"sandwich\" appeared in writing before the French published stories about Montagu."
                 ],
                 answer: "B",
-                exp: "<strong>Explanation:</strong> Paragraph 1 explicitly states that Montagu was not the first person in human history to come up with the idea, and paragraph 2 mentions that historians do not know the name of the original inventor because combining bread with food existed for thousands of years. Thus, statement B is false (NOT TRUE).<br><br><strong>Why others are true:</strong> Option A is true (paragraph 2 mentions Hillel used unleavened matzoh bread). Option C is true (paragraph 4 states it became a verb by the mid-19th century). Option D is true (paragraph 4 notes Edward Gibbon wrote about it in 1762, and 'shortly after,' French writers published stories)."
+                exp: "<strong>Explanation:</strong> Paragraph 1 explicitly states that Montagu was not the first person in human history to come up with the idea, making statement B false."
             },
             {
                 id: 8,
-                prompt: "8) What can be inferred from paragraph 3 about John Montagu’s eating habits at the gambling table?",
+                prompt: "8. What can be inferred from paragraph 3 about John Montagu’s eating habits at the gambling table?",
                 options: [
                     "A) He prioritized keeping his hands clean over formal dining etiquette.",
                     "B) He couldn’t afford full meals at restaurants due to gambling debts.",
@@ -803,11 +811,11 @@ const quizData = [
                     "D) He inspired club members to order the same food while playing cards."
                 ],
                 answer: "A",
-                exp: "<strong>Explanation:</strong> Paragraph 3 notes that he asked for cold meat placed neatly between toasted bread 'so he could eat without interrupting his card games.' This implies he wanted a convenient way to eat with his hands at the table while playing cards without making a mess or stopping to use traditional dining utensils/methods.<br><br><strong>Why others are incorrect:</strong> Option B is unsupported, as he was a wealthy Earl. Option C is incorrect because he adapted the idea for convenience during card games, not out of strict adherence to an Ottoman diet. Option D is incorrect because the text notes historian Edward Gibbon observed men eating, but does not state Montagu directly inspired them at the table."
+                exp: "<strong>Explanation:</strong> Paragraph 3 notes that he asked for cold meat placed neatly between toasted bread so he could eat without interrupting his card games."
             },
             {
                 id: 9,
-                prompt: "9) The word \"staple\" in paragraph 5 is closest in meaning to _______.",
+                prompt: "9. The word \"staple\" in paragraph 5 is closest in meaning to _______.",
                 options: [
                     "A) a rare luxury item",
                     "B) a basic and essential element",
@@ -815,11 +823,11 @@ const quizData = [
                     "D) a temporary culinary trend"
                 ],
                 answer: "B",
-                exp: "<strong>Explanation:</strong> Contextually, the text describes the peanut butter and jelly sandwich as a 'legendary school lunch staple'. In English, a 'staple' refers to a fundamental, main, or basic item that forms a major part of someone's diet or routine.<br><br><strong>Why others are incorrect:</strong> Options A, C, and D mean rare luxury, expensive dish, or temporary trend, all of which are the exact opposite of a common, essential school lunch."
+                exp: "<strong>Explanation:</strong> In English, a 'staple' refers to a fundamental, main, or basic item that forms a major part of a routine."
             },
             {
                 id: 10,
-                prompt: "10) What is the main idea of the article?",
+                prompt: "10. What is the main idea of the article?",
                 options: [
                     "A) The 4th Earl of Sandwich was the sole creator of the modern fast-food industry.",
                     "B) The concept of putting food between bread existed long before its modern name.",
@@ -827,7 +835,7 @@ const quizData = [
                     "D) Modern fast-food meals are based on ancient Middle Eastern traditions."
                 ],
                 answer: "B",
-                exp: "<strong>Explanation:</strong> The article focuses on explaining that while the word 'sandwich' comes from the 4th Earl of Sandwich, the practice of combining bread and fillings spans thousands of years of human history (from Hillel the Elder to Ottoman customs) before Montagu popularized the name.<br><br><strong>Why others are incorrect:</strong> Option A contradicts the text (he was not the sole creator). Option C focuses only on a single supporting detail from paragraph 4 rather than the main point of the whole text. Option D is too narrow and misses the main historical narrative."
+                exp: "<strong>Explanation:</strong> The article focuses on explaining that while the word 'sandwich' comes from the Earl, the practice spans thousands of years of human history."
             }
         ]
     },
@@ -851,42 +859,48 @@ const quizData = [
         questions: [
             { 
                 id: 11, 
-                prompt: "11. Tennis<br><span style='font-weight: normal; font-size: 0.95rem;'>In the early 1900s, female tennis players competed in long skirts and corsets, which resticted their movement. Then, French player Suzanne Lenglen revolutionized women’s sportswear by swapping these heavy outfits for short-sleeved pleated dresses and a bandeau. Today, tennis clothing prioritizes fast movement, while players like Venus Williams even launch their own fashion lines to add not just the skill, but also their own aethetic on court.</span>", 
+                prompt: "11. Tennis",
+                excerpt: "...In the early 1900s, female tennis players competed in long skirts and corsets, which resticted their movement. Then, French player Suzanne Lenglen revolutionized women’s sportswear by swapping these heavy outfits for short-sleeved pleated dresses and a bandeau. Today, tennis clothing prioritizes fast movement, while players like Venus Williams even launch their own fashion lines to add not just the skill, but also their own aethetic on court.",
                 options: task3FullOptions, 
                 answer: "H", 
-                exp: "<strong>Explanation:</strong> French player Suzanne Lenglen single-handedly revolutionized women's tennis clothing by replacing heavy corsets/long skirts with pleated dresses and a bandeau." 
+                exp: "<strong>Explanation:</strong> French player Suzanne Lenglen single-handedly revolutionized women's tennis clothing." 
             },
             { 
                 id: 12, 
-                prompt: "12. Synchronised Swimming<br><span style='font-weight: normal; font-size: 0.95rem;'>Now famous for glitzy, colorful costumes and waterproof makeup, synchronised swimming took time to develop its signature look. Introduced to the Olympics in 1984, the sport places great value on visual presentation. Athletes acknowledge that achieving the ideal artistic appearance requires meticulous attention to their hair, swimsuits, and overall image.</span>", 
+                prompt: "12. Synchronised Swimming",
+                excerpt: "...Now famous for glitzy, colorful costumes and waterproof makeup, synchronised swimming took time to develop its signature look. Introduced to the Olympics in 1984, the sport places great value on visual presentation. Athletes acknowledge that achieving the ideal artistic appearance requires meticulous attention to their hair, swimsuits, and overall image.",
                 options: task3FullOptions, 
                 answer: "F", 
-                exp: "<strong>Explanation:</strong> The text emphasizes that the sport places great value on visual presentation, requiring meticulous attention to hair, swimsuits, and overall image alongside athletic execution." 
+                exp: "<strong>Explanation:</strong> The text emphasizes that the sport places great value on visual presentation." 
             },
             { 
                 id: 13, 
-                prompt: "13. Handball<br><span style='font-weight: normal; font-size: 0.95rem;'>Women’s beach handball players have recently fought against strict clothing regulations. In Brazil and Spain, athletes protested rules forcing them to wear revealing bikinis while male players could wear loose shorts. These protests raised public debate about sexism in sports gear and forced authorities to rethink standard kit requirements.</span>", 
+                prompt: "13. Handball",
+                excerpt: "...Women’s beach handball players have recently fought against strict clothing regulations. In Brazil and Spain, athletes protested rules forcing them to wear revealing bikinis while male players could wear loose shorts. These protests raised public debate about sexism in sports gear and forced authorities to rethink standard kit requirements.",
                 options: task3FullOptions, 
                 answer: "G", 
-                exp: "<strong>Explanation:</strong> Female players explicitly protested rules forcing them to wear bikinis while men wore shorts, sparking debate over gender-based garment restrictions." 
+                exp: "<strong>Explanation:</strong> Female players explicitly protested rules forcing them to wear bikinis." 
             },
             { 
                 id: 14, 
-                prompt: "14. Women’s Football (Early History)<br><span style='font-weight: normal; font-size: 0.95rem;'>In the late 19th century, UK suffragettes advocated for women’s football as a way to reject restrictive Victorian fashion. However, in 1921, the Football Association banned women from playing on official pitches, declaring the sport unsuitable for females. This ban remained in place for half a century until it was finally repealed in 1971.</span>", 
+                prompt: "14. Women’s Football (Early History)",
+                excerpt: "...In the late 19th century, UK suffragettes advocated for women’s football as a way to reject restrictive Victorian fashion. However, in 1921, the Football Association banned women from playing on official pitches, declaring the sport unsuitable for females. This ban remained in place for half a century until it was finally repealed in 1971.",
                 options: task3FullOptions, 
                 answer: "A", 
-                exp: "<strong>Explanation:</strong> The Football Association's ban on women playing on official pitches lasted from 1921 until 1971 (exactly 50 years / half a century)." 
+                exp: "<strong>Explanation:</strong> The ban lasted from 1921 until 1971 (50 years)." 
             },
             { 
                 id: 15, 
-                prompt: "15. Football Gear Update<br><span style='font-weight: normal; font-size: 0.95rem;'>Modern football regulations have adapted to respect religious diversity among female athletes. FIFA originally prohibited headscarves due to safety concerns regarding head and neck injuries. However, in 2014, the organization officially updated its policies to allow players to wear hijabs during international matches.</span>", 
+                prompt: "15. Football Gear Update",
+                excerpt: "...Modern football regulations have adapted to respect religious diversity among female athletes. FIFA originally prohibited headscarves due to safety concerns regarding head and neck injuries. However, in 2014, the organization officially updated its policies to allow players to wear hijabs during international matches.",
                 options: task3FullOptions, 
                 answer: "C", 
-                exp: "<strong>Explanation:</strong> FIFA updated safety policies on headscarves in 2014 to allow players to wear hijabs (religious headwear) during matches." 
+                exp: "<strong>Explanation:</strong> FIFA updated safety policies on headscarves in 2014." 
             },
             { 
                 id: 16, 
-                prompt: "16. Figure Skating<br><span style='font-weight: normal; font-size: 0.95rem;'>Figure skating costumes have evolved from heavy winter coats to high-performance stretch fabrics. In the 1920s, Norwegian skater Sonja Henie introduced shorter skirts above the knee, which allowed for unprecedented freedom of movement and technical jumps. Her daring style permanently changed the sport's outfit standards, paving the way for modern athletic artistry.</span>", 
+                prompt: "16. Figure Skating",
+                excerpt: "...Figure skating costumes have evolved from heavy winter coats to high-performance stretch fabrics. In the 1920s, Norwegian skater Sonja Henie introduced shorter skirts above the knee, which allowed for unprecedented freedom of movement and technical jumps. Her daring style permanently changed the sport's outfit standards, paving the way for modern athletic artistry.",
                 options: task3FullOptions, 
                 answer: "D", 
                 exp: "<strong>Explanation:</strong> Sonja Henie introduced skirts above the knee, enabling athletes to perform complex technical jumps." 
@@ -908,18 +922,60 @@ const quizData = [
             <strong>H)</strong> doesn’t feel restorative despite looking effortless
         `,
         text: `
-            <p>Many people describe a specific kind of depletion after scrolling through social media: physically unchanged, <strong>(17) ________</strong>. Recent HCI survey data suggests that low-effort digital activity can still be experienced as cognitively demanding, even when it feels completely passive.</p>
-            <p>In a 2025 study on digital life, half of the respondents described their energy levels as exhausted <strong>(18) ________</strong>. Another survey examining attention under digital load revealed that 61% of users felt mentally saturated <strong>(19) ________</strong>. Surprisingly, a related fatigue pattern appears even on days without hard work, with over a fifth of participants reporting constant exhaustion.</p>
-            <p>Together, these findings suggest that mental exhaustion occurs <strong>(20) ________</strong>. Scrolling may appear easy from the outside, but it actually involves sustained input, rapid shifts in attention, and continual comparison.</p>
-            <p>Users often report that their minds feel cluttered afterwards, noting that digital activity <strong>(21) ________</strong>. While these survey figures reflect self-reported reflection rather than a direct cause-and-effect link, they clearly highlight a growing trend. Feeling drained after screen time simply reflects the heavy cognitive load <strong>(22) ________</strong>.</p>
+            <p>Many people describe a specific kind of depletion after scrolling through social media: physically unchanged, (17) <strong>________</strong>. Recent HCI survey data suggests that low-effort digital activity can still be experienced as cognitively demanding, even when it feels completely passive.</p>
+            <p>In a 2025 study on digital life, half of the respondents described their energy levels as exhausted (18) <strong>________</strong>. Another survey examining attention under digital load revealed that 61% of users felt mentally saturated (19) <strong>________</strong>. Surprisingly, a related fatigue pattern appears even on days without hard work, with over a fifth of participants reporting constant exhaustion.</p>
+            <p>Together, these findings suggest that mental exhaustion occurs (20) <strong>________</strong>. Scrolling may appear easy from the outside, but it actually involves sustained input, rapid shifts in attention, and continual comparison.</p>
+            <p>Users often report that their minds feel cluttered afterwards, noting that digital activity (21) <strong>________</strong>. While these survey figures reflect self-reported reflection rather than a direct cause-and-effect link, they clearly highlight a growing trend. Feeling drained after screen time simply reflects the heavy cognitive load (22) <strong>________</strong>.</p>
         `,
         questions: [
-            { id: 17, prompt: "17. Gap (17)", options: task4FullOptions, answer: "F", exp: "<strong>Explanation:</strong> Parallel adjective structure matching 'physically unchanged'." },
-            { id: 18, prompt: "18. Gap (18)", options: task4FullOptions, answer: "E", exp: "<strong>Explanation:</strong> Prepositional phrase specifying duration ('after + -ing')." },
-            { id: 19, prompt: "19. Gap (19)", options: task4FullOptions, answer: "A", exp: "<strong>Explanation:</strong> Condition clause specifying cognitive trigger." },
-            { id: 20, prompt: "20. Gap (20)", options: task4FullOptions, answer: "C", exp: "<strong>Explanation:</strong> Concessive clause: mental fatigue occurs despite minimal physical effort." },
-            { id: 21, prompt: "21. Gap (21)", options: task4FullOptions, answer: "H", exp: "<strong>Explanation:</strong> Provides the necessary finite predicate verb phrase ('doesn't feel')." },
-            { id: 22, prompt: "22. Gap (22)", options: task4FullOptions, answer: "D", exp: "<strong>Explanation:</strong> Defining relative clause starting with 'that'." }
+            { 
+                id: 17, 
+                prompt: "17. Gap (17)",
+                excerpt: "...Many people describe a specific kind of depletion after scrolling through social media: physically unchanged, (17) ________...",
+                options: task4FullOptions, 
+                answer: "F", 
+                exp: "<strong>Explanation:</strong> Parallel adjective structure matching 'physically unchanged'." 
+            },
+            { 
+                id: 18, 
+                prompt: "18. Gap (18)",
+                excerpt: "...In a 2025 study on digital life, half of the respondents described their energy levels as exhausted (18) ________...",
+                options: task4FullOptions, 
+                answer: "E", 
+                exp: "<strong>Explanation:</strong> Prepositional phrase specifying duration ('after + -ing')." 
+            },
+            { 
+                id: 19, 
+                prompt: "19. Gap (19)",
+                excerpt: "...Another survey examining attention under digital load revealed that 61% of users felt mentally saturated (19) ________...",
+                options: task4FullOptions, 
+                answer: "A", 
+                exp: "<strong>Explanation:</strong> Condition clause specifying cognitive trigger." 
+            },
+            { 
+                id: 20, 
+                prompt: "20. Gap (20)",
+                excerpt: "...Together, these findings suggest that mental exhaustion occurs (20) ________...",
+                options: task4FullOptions, 
+                answer: "C", 
+                exp: "<strong>Explanation:</strong> Concessive clause: mental fatigue occurs despite minimal physical effort." 
+            },
+            { 
+                id: 21, 
+                prompt: "21. Gap (21)",
+                excerpt: "...Users often report that their minds feel cluttered afterwards, noting that digital activity (21) ________...",
+                options: task4FullOptions, 
+                answer: "H", 
+                exp: "<strong>Explanation:</strong> Provides the necessary finite predicate verb phrase ('doesn't feel')." 
+            },
+            { 
+                id: 22, 
+                prompt: "22. Gap (22)",
+                excerpt: "...Feeling drained after screen time simply reflects the heavy cognitive load (22) ________...",
+                options: task4FullOptions, 
+                answer: "D", 
+                exp: "<strong>Explanation:</strong> Defining relative clause starting with 'that'." 
+            }
         ]
     },
     {
@@ -928,14 +984,49 @@ const quizData = [
         instruction: "Choose the correct word for gaps 23–27.",
         text: `
             <p><strong>Why Are Some Hooked on Netflix?</strong></p>
-            <p>Netflix is the leading streaming platform, but its success <strong>(23) ________</strong> on its ability to recommend the right content. The system uses algorithms to <strong>(24) ________</strong> viewer behavior and <strong>(25) ________</strong> out unsuitable options. When users select a show, the automated program gets smarter, preventing subscribers from becoming <strong>(26) ________</strong> by endless choices. This massive dataset also helps executives <strong>(27) ________</strong> key decisions about which original shows to produce next.</p>
+            <p>Netflix is the leading streaming platform, but its success (23) <strong>________</strong> on its ability to recommend the right content. The system uses algorithms to (24) <strong>________</strong> viewer behavior and (25) <strong>________</strong> out unsuitable options. When users select a show, the automated program gets smarter, preventing subscribers from becoming (26) <strong>________</strong> by endless choices. This massive dataset also helps executives (27) <strong>________</strong> key decisions about which original shows to produce next.</p>
         `,
         questions: [
-            { id: 23, prompt: "23. Gap (23)", options: ["A) relies", "B) insists", "C) revolves", "D) recounts"], answer: "A", exp: "<strong>Phrasal Verb:</strong> rely on." },
-            { id: 24, prompt: "24. Gap (24)", options: ["A) access", "B) assess", "C) assist", "D) affect"], answer: "B", exp: "<strong>Vocabulary:</strong> assess = evaluate / analyze." },
-            { id: 25, prompt: "25. Gap (25)", options: ["A) weed", "B) check", "C) rule", "D) keep"], answer: "A", exp: "<strong>Phrasal Verb:</strong> weed out = eliminate / filter out." },
-            { id: 26, prompt: "26. Gap (26)", options: ["A) in danger of", "B) at risk of", "C) on threat of", "D) under fear of"], answer: "B", exp: "<strong>Prepositional Phrase:</strong> at risk of + V-ing." },
-            { id: 27, prompt: "27. Gap (27)", options: ["A) shape", "B) form", "C) build", "D) construct"], answer: "A", exp: "<strong>Collocation:</strong> shape decisions." }
+            { 
+                id: 23, 
+                prompt: "23. Gap (23)",
+                excerpt: "...Netflix is the leading streaming platform, but its success (23) ________ on its ability to recommend the right content.",
+                options: ["A) relies", "B) insists", "C) revolves", "D) recounts"], 
+                answer: "A", 
+                exp: "<strong>Phrasal Verb:</strong> rely on." 
+            },
+            { 
+                id: 24, 
+                prompt: "24. Gap (24)",
+                excerpt: "...The system uses algorithms to (24) ________ viewer behavior...",
+                options: ["A) access", "B) assess", "C) assist", "D) affect"], 
+                answer: "B", 
+                exp: "<strong>Vocabulary:</strong> assess = evaluate / analyze." 
+            },
+            { 
+                id: 25, 
+                prompt: "25. Gap (25)",
+                excerpt: "...and (25) ________ out unsuitable options.",
+                options: ["A) weed", "B) check", "C) rule", "D) keep"], 
+                answer: "A", 
+                exp: "<strong>Phrasal Verb:</strong> weed out = eliminate / filter out." 
+            },
+            { 
+                id: 26, 
+                prompt: "26. Gap (26)",
+                excerpt: "...preventing subscribers from becoming (26) ________ by endless choices.",
+                options: ["A) in danger of", "B) at risk of", "C) on threat of", "D) under fear of"], 
+                answer: "B", 
+                exp: "<strong>Prepositional Phrase:</strong> at risk of + V-ing." 
+            },
+            { 
+                id: 27, 
+                prompt: "27. Gap (27)",
+                excerpt: "...This massive dataset also helps executives (27) ________ key decisions about which original shows to produce next.",
+                options: ["A) shape", "B) form", "C) build", "D) construct"], 
+                answer: "A", 
+                exp: "<strong>Collocation:</strong> shape decisions." 
+            }
         ]
     },
     {
@@ -944,14 +1035,49 @@ const quizData = [
         instruction: "Choose the correct grammatical form for gaps 28–32.",
         text: `
             <p><strong>The Hedonic Treadmill</strong></p>
-            <p>The hedonic treadmill shows that an individual’s happiness usually returns to its baseline after major events. Although a promotion makes people <strong>(28) ________</strong> happier at first, it rarely changes their long-term mood. Soon, they adjust to their new status, <strong>(29) ________</strong> even more joy to feel satisfied. Fortunately, <strong>(30) ________</strong> negative experiences leave us permanently depressed because our baseline <strong>(31) ________</strong> back over time. In fact, <strong>(32) ________</strong> we achieve, the higher our expectations become, making long-term happiness gains difficult to sustain.</p>
+            <p>The hedonic treadmill shows that an individual’s happiness usually returns to its baseline after major events. Although a promotion makes people (28) <strong>________</strong> happier at first, it rarely changes their long-term mood. Soon, they adjust to their new status, (29) <strong>________</strong> even more joy to feel satisfied. Fortunately, (30) <strong>________</strong> negative experiences leave us permanently depressed because our baseline (31) <strong>________</strong> back over time. In fact, (32) <strong>________</strong> we achieve, the higher our expectations become, making long-term happiness gains difficult to sustain.</p>
         `,
         questions: [
-            { id: 28, prompt: "28. Gap (28)", options: ["A) feel", "B) to feel", "C) feeling", "D) felt"], answer: "A", exp: "<strong>Complex Object:</strong> make + object + bare infinitive." },
-            { id: 29, prompt: "29. Gap (29)", options: ["A) desire", "B) desiring", "C) to desire", "D) desired"], answer: "B", exp: "<strong>Participle Clause:</strong> Present Participle (-ing) showing consequence." },
-            { id: 30, prompt: "30. Gap (30)", options: ["A) few", "B) a few", "C) little", "D) a little"], answer: "A", exp: "<strong>Quantifiers:</strong> Countable plural noun with negative meaning ('almost none')." },
-            { id: 31, prompt: "31. Gap (31)", options: ["A) shifted", "B) shifts", "C) was shifting", "D) had shifted"], answer: "B", exp: "<strong>Verb Tense:</strong> Present Simple for general facts." },
-            { id: 32, prompt: "32. Gap (32)", options: ["A) more", "B) the most", "C) the more", "D) as much"], answer: "C", exp: "<strong>Comparative Structure:</strong> The + comparative..., the + comparative..." }
+            { 
+                id: 28, 
+                prompt: "28. Gap (28)",
+                excerpt: "...Although a promotion makes people (28) ________ happier at first, it rarely changes their long-term mood.",
+                options: ["A) feel", "B) to feel", "C) feeling", "D) felt"], 
+                answer: "A", 
+                exp: "<strong>Complex Object:</strong> make + object + bare infinitive." 
+            },
+            { 
+                id: 29, 
+                prompt: "29. Gap (29)",
+                excerpt: "...Soon, they adjust to their new status, (29) ________ even more joy to feel satisfied.",
+                options: ["A) desire", "B) desiring", "C) to desire", "D) desired"], 
+                answer: "B", 
+                exp: "<strong>Participle Clause:</strong> Present Participle (-ing) showing consequence." 
+            },
+            { 
+                id: 30, 
+                prompt: "30. Gap (30)",
+                excerpt: "...Fortunately, (30) ________ negative experiences leave us permanently depressed...",
+                options: ["A) few", "B) a few", "C) little", "D) a little"], 
+                answer: "A", 
+                exp: "<strong>Quantifiers:</strong> Countable plural noun with negative meaning ('almost none')." 
+            },
+            { 
+                id: 31, 
+                prompt: "31. Gap (31)",
+                excerpt: "...because our baseline (31) ________ back over time.",
+                options: ["A) shifted", "B) shifts", "C) was shifting", "D) had shifted"], 
+                answer: "B", 
+                exp: "<strong>Verb Tense:</strong> Present Simple for general facts." 
+            },
+            { 
+                id: 32, 
+                prompt: "32. Gap (32)",
+                excerpt: "...In fact, (32) ________ we achieve, the higher our expectations become, making long-term happiness gains difficult to sustain.",
+                options: ["A) more", "B) the most", "C) the more", "D) as much"], 
+                answer: "C", 
+                exp: "<strong>Comparative Structure:</strong> The + comparative..., the + comparative..." 
+            }
         ]
     }
 ];
@@ -1049,6 +1175,10 @@ function renderQuiz() {
                 <div class="question-title">${q.prompt}</div>
         `;
 
+        if (q.excerpt) {
+            html += `<div class="question-excerpt">${q.excerpt}</div>`;
+        }
+
         if (q.imageUrl) {
             html += `<img src="${q.imageUrl}" alt="Task Image ${q.id}" class="question-img">`;
         }
@@ -1145,24 +1275,19 @@ function submitTest() {
 
     const scaledScore = conversionTable[rawScore] || 0;
 
-    // Header display updates
     document.getElementById('scoreBoard').innerText = `Тестовий бал: ${rawScore} / 32`;
     const scaleBoard = document.getElementById('scaleBoard');
     scaleBoard.innerText = `Бал НМТ/ЄВІ: ${scaledScore}`;
     scaleBoard.style.display = 'inline-block';
 
-    // Results summary block setup
     document.getElementById('rawScoreSummary').innerText = `${rawScore} / 32`;
     document.getElementById('scaledScoreSummary').innerText = scaledScore;
     document.getElementById('tabSwitchSummary').innerText = tabSwitchCount;
     document.getElementById('scoreSummaryCard').classList.add('active');
 
-    // Controls display update
     document.getElementById('submitBtn').style.display = 'none';
 
     applySubmissionStyles();
-    
-    // Scroll smoothly to results card
     document.getElementById('scoreSummaryCard').scrollIntoView({ behavior: 'smooth' });
 }
 
