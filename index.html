@@ -1326,50 +1326,18 @@ function generatePDFTemplate() {
 
     const scaledScore = conversionTable[rawScore] || 0;
 
-    // Розділимо завдання на дві частини: 1-4 завдання на першу сторінку, 5-6 завдання на другу
-    let firstPartTasks = quizData.slice(0, 4);
-    let secondPartTasks = quizData.slice(4);
-
-    let renderTasksHTML = (tasks) => {
-        let html = '';
-        tasks.forEach(task => {
-            html += `
-                <div style="margin-bottom: 12px;">
-                    <h3 style="color:#1c3d8d; font-size: 12px; margin-top:10px; margin-bottom:6px; border-bottom: 1px solid #cbd5e1; padding-bottom: 2px;">${task.title}</h3>
-            `;
-            task.questions.forEach(q => {
-                const userAns = userAnswers[q.id] || "Не надано";
-                const isCorrect = userAns === q.answer;
-                const statusColor = isCorrect ? '#16a34a' : '#dc2626';
-                const statusText = isCorrect ? "ПРАВИЛЬНО" : "НЕПРАВИЛЬНО";
-                let cleanPrompt = q.prompt.replace(/^\d+\.\s*/, '');
-
-                html += `
-                    <div style="margin-bottom: 6px; padding: 6px 8px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 4px;">
-                        <div style="font-weight: bold; font-size: 10px; margin-bottom: 2px; color: #0f172a;">
-                            Запитання ${q.id} (${cleanPrompt}) — <span style="color: ${statusColor};">${statusText}</span>
-                        </div>
-                        <div style="font-size: 9px; margin: 2px 0;">
-                            <strong>Ваша відповідь:</strong> ${userAns} &nbsp;|&nbsp; <strong>Правильна відповідь:</strong> ${q.answer}
-                        </div>
-                        <div style="background: #fef08a; padding: 4px 6px; border-radius: 3px; margin-top: 4px; font-size: 9px; line-height: 1.3;">
-                            ${q.exp}
-                        </div>
-                    </div>
-                `;
-            });
-            html += `</div>`;
-        });
-        return html;
-    };
-
     let pdfHtml = `
         <div style="font-family: system-ui, sans-serif; color: #0f172a; padding: 10px; background: #ffffff; font-size: 10px;">
-            <!-- Сторінка 1 -->
-            <div style="page-break-after: always; min-height: 250mm;">
-                <div style="border-bottom: 2px solid #1c3d8d; padding-bottom: 8px; margin-bottom: 12px;">
-                    <h1 style="font-size: 15px; color: #1c3d8d; margin-bottom: 6px;">Звіт із Пробного НМТ з англійської мови</h1>
-                    <div style="display: flex; justify-content: space-between; font-size: 10px; gap: 8px; flex-wrap: wrap;">
+    `;
+
+    quizData.forEach((task, index) => {
+        // Шапка додається на першій сторінці разом із завданням 1
+        let headerHtml = '';
+        if (index === 0) {
+            headerHtml = `
+                <div style="border-bottom: 2px solid #1c3d8d; padding-bottom: 8px; margin-bottom: 10px;">
+                    <h1 style="font-size: 14px; color: #1c3d8d; margin-bottom: 4px;">Звіт із Пробного НМТ з англійської мови</h1>
+                    <div style="display: flex; justify-content: space-between; font-size: 9px; gap: 6px; flex-wrap: wrap;">
                         <div><strong>Учень:</strong> ${studentName || 'Анонім'}</div>
                         <div><strong>Дата:</strong> ${new Date().toLocaleDateString('uk-UA')}</div>
                         <div><strong>Тестовий бал:</strong> ${rawScore} / 32</div>
@@ -1377,16 +1345,44 @@ function generatePDFTemplate() {
                         <div><strong>Виходів із вкладки:</strong> ${tabSwitchCount}</div>
                     </div>
                 </div>
-                ${renderTasksHTML(firstPartTasks)}
-            </div>
+            `;
+        }
 
-            <!-- Сторінка 2 -->
-            <div style="padding-top: 10px;">
-                <h3 style="color: #1c3d8d; font-size: 13px; margin-bottom: 10px;">Продовження звіту (Завдання 5–6)</h3>
-                ${renderTasksHTML(secondPartTasks)}
-            </div>
-        </div>
-    `;
+        // Для всіх сторінок, окрім останньої, робимо примусовий розрив сторінки після блоку
+        let pageBreakStyle = (index < quizData.length - 1) ? 'page-break-after: always; min-height: 260mm;' : '';
+
+        pdfHtml += `
+            <div style="${pageBreakStyle}">
+                ${headerHtml}
+                <h3 style="color:#1c3d8d; font-size: 12px; margin-top: 6px; margin-bottom: 6px; border-bottom: 1px solid #cbd5e1; padding-bottom: 2px;">${task.title}</h3>
+        `;
+        
+        task.questions.forEach(q => {
+            const userAns = userAnswers[q.id] || "Не надано";
+            const isCorrect = userAns === q.answer;
+            const statusColor = isCorrect ? '#16a34a' : '#dc2626';
+            const statusText = isCorrect ? "ПРАВИЛЬНО" : "НЕПРАВИЛЬНО";
+            let cleanPrompt = q.prompt.replace(/^\d+\.\s*/, '');
+
+            pdfHtml += `
+                <div style="margin-bottom: 5px; padding: 5px 7px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 4px;">
+                    <div style="font-weight: bold; font-size: 10px; margin-bottom: 2px; color: #0f172a;">
+                        Запитання ${q.id} (${cleanPrompt}) — <span style="color: ${statusColor};">${statusText}</span>
+                    </div>
+                    <div style="font-size: 9px; margin: 2px 0;">
+                        <strong>Ваша відповідь:</strong> ${userAns} &nbsp;|&nbsp; <strong>Правильна відповідь:</strong> ${q.answer}
+                    </div>
+                    <div style="background: #fef08a; padding: 3px 5px; border-radius: 3px; margin-top: 3px; font-size: 9px; line-height: 1.3;">
+                        ${q.exp}
+                    </div>
+                </div>
+            `;
+        });
+
+        pdfHtml += `</div>`;
+    });
+
+    pdfHtml += `</div>`;
 
     const reportElem = document.getElementById('pdfReport');
     reportElem.innerHTML = pdfHtml;
