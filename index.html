@@ -1327,34 +1327,45 @@ function generatePDFTemplate() {
     const scaledScore = conversionTable[rawScore] || 0;
 
     let pdfHtml = `
-        <div class="pdf-header">
-            <h1>Звіт із Пробного НМТ з англійської мови</h1>
-            <div class="pdf-meta">
-                <div><strong>Учень:</strong> ${studentName || 'Анонім'}</div>
-                <div><strong>Дата:</strong> ${new Date().toLocaleDateString('uk-UA')}</div>
-                <div><strong>Тестовий бал:</strong> ${rawScore} / 32</div>
-                <div><strong>Бал НМТ/ЄВІ (100–200):</strong> ${scaledScore}</div>
-                <div><strong>Виходів із вкладки:</strong> ${tabSwitchCount}</div>
+        <div style="font-family: system-ui, sans-serif; color: #0f172a; padding: 10px;">
+            <div class="pdf-header" style="border-bottom: 2px solid #1c3d8d; padding-bottom: 12px; margin-bottom: 20px;">
+                <h1 style="font-size: 18px; color: #1c3d8d; margin-bottom: 8px;">Звіт із Пробного НМТ з англійської мови</h1>
+                <div style="display: flex; justify-content: space-between; font-size: 12px; gap: 10px; flex-wrap: wrap;">
+                    <div><strong>Учень:</strong> ${studentName || 'Анонім'}</div>
+                    <div><strong>Дата:</strong> ${new Date().toLocaleDateString('uk-UA')}</div>
+                    <div><strong>Тестовий бал:</strong> ${rawScore} / 32</div>
+                    <div><strong>Бал НМТ/ЄВІ:</strong> ${scaledScore}</div>
+                    <div><strong>Виходів із вкладки:</strong> ${tabSwitchCount}</div>
+                </div>
             </div>
-        </div>
     `;
 
     quizData.forEach(task => {
-        pdfHtml += `<h3 style="color:#1c3d8d; margin-top:16px; margin-bottom:8px;">${task.title}</h3>`;
+        pdfHtml += `<h3 style="color:#1c3d8d; font-size: 14px; margin-top:16px; margin-bottom:8px; page-break-after: avoid;">${task.title}</h3>`;
+        
         task.questions.forEach(q => {
             const userAns = userAnswers[q.id] || "Не надано";
             const isCorrect = userAns === q.answer;
-            const statusText = isCorrect ? "<span style='color:green;'>ПРАВИЛЬНО</span>" : "<span style='color:red;'>НЕПРАВИЛЬНО</span>";
+            const statusColor = isCorrect ? 'green' : 'red';
+            const statusText = isCorrect ? "ПРАВИЛЬНО" : "НЕПРАВИЛЬНО";
 
             pdfHtml += `
-                <div class="pdf-q-item">
-                    <div class="pdf-q-title">Запитання ${q.id} — ${statusText}</div>
-                    <div class="pdf-ans"><strong>Ваша відповідь:</strong> ${userAns} | <strong>Правильна відповідь:</strong> ${q.answer}</div>
-                    <div class="pdf-exp">${q.exp}</div>
+                <div style="margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid #e2e8f0; page-break-inside: avoid;">
+                    <div style="font-weight: bold; font-size: 12px; margin-bottom: 4px; color: #0f172a;">
+                        Запитання ${q.id}: ${q.prompt} — <span style="color: ${statusColor};">${statusText}</span>
+                    </div>
+                    <div style="font-size: 11px; margin: 2px 0;">
+                        <strong>Ваша відповідь:</strong> ${userAns} | <strong>Правильна відповідь:</strong> ${q.answer}
+                    </div>
+                    <div style="background: #fef08a; padding: 6px 8px; border-radius: 4px; margin-top: 4px; font-size: 10px; line-height: 1.4;">
+                        ${q.exp}
+                    </div>
                 </div>
             `;
         });
     });
+
+    pdfHtml += `</div>`;
 
     const reportElem = document.getElementById('pdfReport');
     reportElem.innerHTML = pdfHtml;
