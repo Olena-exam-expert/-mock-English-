@@ -1327,7 +1327,7 @@ function generatePDFTemplate() {
     const scaledScore = conversionTable[rawScore] || 0;
 
     let pdfHtml = `
-        <div style="font-family: system-ui, sans-serif; color: #0f172a; padding: 20px; background: #ffffff; font-size: 11px;">
+        <div style="font-family: system-ui, sans-serif; color: #0f172a; padding: 15px; background: #ffffff; font-size: 11px;">
             <div style="border-bottom: 2px solid #1c3d8d; padding-bottom: 10px; margin-bottom: 15px;">
                 <h1 style="font-size: 16px; color: #1c3d8d; margin-bottom: 6px;">Звіт із Пробного НМТ з англійської мови</h1>
                 <div style="display: flex; justify-content: space-between; font-size: 11px; gap: 10px; flex-wrap: wrap;">
@@ -1340,9 +1340,12 @@ function generatePDFTemplate() {
             </div>
     `;
 
-    quizData.forEach((task) => {
+    quizData.forEach((task, index) => {
+        // Додаємо примусовий розрив сторінки перед Task 5 та Task 6, щоб вони гарантовано починалися на новій сторінці
+        const pageBreakBefore = (index >= 4) ? 'page-break-before: always;' : '';
+
         pdfHtml += `
-            <div style="margin-bottom: 15px;">
+            <div style="margin-bottom: 15px; ${pageBreakBefore}">
                 <h3 style="color:#1c3d8d; font-size: 13px; margin-top:12px; margin-bottom:8px; border-bottom: 1px solid #cbd5e1; padding-bottom: 3px;">${task.title}</h3>
         `;
         
@@ -1384,31 +1387,10 @@ function downloadPDF() {
     element.style.display = 'block';
 
     const opt = {
-        margin:       [5, 5, 5, 5],
-        filename:     `NMT_Report_${(studentName || 'Student').replace(/\s+/g, '_')}.pdf`,
-        image:        { type: 'jpeg', quality: 0.98 },
-        html2canvas:  { scale: 2, useCORS: true },
-        jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait', putOnlyUsedFonts: true }
-    };
-
-    // Генеруємо багатосторінковий PDF автоматично через html2pdf
-    html2pdf().set(opt).from(element).toPdf().get('pdf').then((pdf) => {
-        // Якщо контент довший за 1 сторінку, бібліотека сама створить стільки сторінок, скільки потрібно
-    }).save().then(() => {
-        element.style.display = 'none';
-    });
-}
-
-function downloadPDF() {
-    generatePDFTemplate();
-    const element = document.getElementById('pdfReport');
-    element.style.display = 'block';
-
-    const opt = {
         margin:       10,
         filename:     `NMT_Report_${(studentName || 'Student').replace(/\s+/g, '_')}.pdf`,
         image:        { type: 'jpeg', quality: 0.98 },
-        html2canvas:  { scale: 2 },
+        html2canvas:  { scale: 2, useCORS: true },
         jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
     };
 
